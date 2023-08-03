@@ -1,4 +1,58 @@
-.title{
-    font-size: larger;
-    font-family: fantasy;
+.app {
+    padding-top: 50px;
+    padding-bottom: 50px;
+background-color: rgb(231, 230, 230);
 }
+
+.title{
+    font-size: 50px;
+    font-family: fantasy;
+    margin-top: 50px;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-bottom: 30px;
+    color: blue;
+}
+
+.placeholder{
+    margin: 50px;
+    color: lightblue;
+}
+
+.todo{
+    padding: 10px 10px 10px 10px;
+    margin: 20px 20px 20px 20px;
+}
+.due{
+    padding: 10px 10px 10px 10px;
+    margin: 20px 20px 20px 20px;
+}
+.addData{
+    padding: 10px 10px 10px 10px;
+    margin: 20px 20px 20px 20px;
+}
+
+table, th, td{
+    margin: 30px 50px 20px 70px;
+    color: black;
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+thead {
+    text-align: center;
+}
+
+td, th {
+    padding: 5px 20px 5px 20px;
+    text-align: center;
+}
+
+th {
+    background-color: rgba(65, 131, 197, 0.663);
+}
+
+tr :hover{
+    background-color: rgb(200, 198, 228);
+}
+

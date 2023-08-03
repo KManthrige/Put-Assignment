@@ -5,7 +5,7 @@ export default function App() {
 
   // const [updateChore, setUpdateChore] = useState({})
   const [choreList, setChoreList] = useState([]);
-  const [newChore, setNewChore] = useState ({
+  const [newChore, setNewChore] = useState({
     todo: "",
     due: ""
   });
@@ -57,14 +57,14 @@ export default function App() {
   }
 
   const deleteData = async (id) => {
-    try{
+    try {
       const response = await fetch(`/api/deleteChore${id}`, {
         method: "DELETE"
       })
       const data = await response.json()
       console.log(data)
       getData()
-    }catch(error){
+    } catch (error) {
       console.log("Error deleting item", error)
     }
   }
@@ -97,50 +97,52 @@ export default function App() {
     getData()
   }, [])
 
-  useEffect (() => {
+  useEffect(() => {
 
   }, [newChore])
 
 
   return (
     <>
-      <div className="title">Adult in Training</div>
-      <div className="placeholder">
-        <input name="todo" className="todo" placeholder="Chore" onChange={placeholder} value={newChore.todo}/>
-        <input name="due" className="due" placeholder="Due Data" onChange={placeholder} value={newChore.due}/>
-      </div>
-      <button onClick={addData}>ADD NEW CHORE</button>
+      <div className="app">
+        <div className="title">Adult in Training</div>
+        <div className="placeholder">
+          <input name="todo" className="todo" placeholder="Chore" onChange={placeholder} value={newChore.todo} />
+          <input name="due" className="due" placeholder="Due Data" onChange={placeholder} value={newChore.due} />
+          <button className="addData" onClick={addData}>ADD NEW CHORE</button>
+        </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Chore</th>
-            <th>Edit</th>
-            <th>Due Date</th>
-            <th>Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-        {choreList.map((item, index) => 
-          <tr key={item.id}>
-            {/* <td>{item.todo}</td> */}
-            <td contentEditable
-            onBlur={(event) => handleEdit(index, "todo", event.target.innerText)}>{item.todo}</td>
-            <td contentEditable
-            onBlur={(event) => handleEdit(index, "due", event.target.innerText)}>{item.due}</td>
-            {/* <td>
+        <table className="table">
+          <thead className="thead">
+            <tr>
+              <th>Chore</th>
+              <th>Edit</th>
+              <th>Due Date</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody className="tbody">
+            {choreList.map((item, index) =>
+              <tr key={item.id}>
+                {/* <td>{item.todo}</td> */}
+                <td contentEditable
+                  onBlur={(event) => handleEdit(index, "todo", event.target.innerText)}>{item.todo}</td>
+                <td contentEditable
+                  onBlur={(event) => handleEdit(index, "due", event.target.innerText)}>{item.due}</td>
+                {/* <td>
               <input placeholder="Edit Chore" onChange={(event) => handleEdit(event)}/>
             </td> */}
-            {/* <td>{item.due}</td> */}
-            {/* <td>
+                {/* <td>{item.due}</td> */}
+                {/* <td>
               <input placeholder="Edit Due Date" onChange={(event) => handleEdit(event)}/>
             </td> */}
-            <td><button onClick={() => deleteData(item.id)}>X</button></td>
-            <td><button onClick={() => putData(item.id)}>Edit</button></td>
-          </tr>
-          )}
-        </tbody>
-      </table>
+                <td><button onClick={() => deleteData(item.id)}>X</button></td>
+                <td><button onClick={() => putData(item.id)}>Edit</button></td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }
