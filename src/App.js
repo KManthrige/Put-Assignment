@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
+import './styles.css';
 
 export default function App() {
 
-  const [choreList, setChoreList] = useState([])
+  // const [updateChore, setUpdateChore] = useState({})
+  const [choreList, setChoreList] = useState([]);
   const [newChore, setNewChore] = useState ({
     todo: "",
-    due: "",
-  })
+    due: ""
+  });
+  // const[updateChoreList, setUpdataChoreList] = useState({
+  //   todo: "",
+  //   due: ""
+  // })
 
   const getData = async () => {
     try {
@@ -18,19 +24,15 @@ export default function App() {
     }
   }
 
-  const putData = async () => {
-    const id = 1;
-    const newData = {
-      todo: "Clean room",
-      due: "08/03/2023"
-    }
+  const putData = async (id) => {
     try {
+      const choreToUpdate = choreList.find((item) => item.id === id);
       const response = await fetch(`/api/updateList/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(newData)
+        body: JSON.stringify(choreToUpdate)
       });
       const data = await response.json();
       console.log("new data", data);
@@ -60,6 +62,7 @@ export default function App() {
         method: "DELETE"
       })
       const data = await response.json()
+      console.log(data)
       getData()
     }catch(error){
       console.log("Error deleting item", error)
@@ -73,6 +76,23 @@ export default function App() {
     }))
   }
 
+  // const handleEdit = (event) => {
+  //   console.log("something changed", event.target.value)
+  //   setUpdataChoreList((prevState) => ({
+  //     ...prevState,
+  //     [event.target.name]: event.target.value
+  //   }))
+  // }
+  const handleEdit = (rowIndex, field, value) => {
+    console.log("rowIndex", rowIndex)
+    setChoreList((prevData) => {
+      const updatedData = [...prevData];
+      updatedData[rowIndex] = { ...updatedData[rowIndex], [field]: value };
+      return updatedData;
+    });
+  };
+
+
   useEffect(() => {
     getData()
   }, [])
@@ -81,30 +101,42 @@ export default function App() {
 
   }, [newChore])
 
+
   return (
     <>
-      <div>Adult in Training</div>
+      <div className="title">Adult in Training</div>
       <div className="placeholder">
         <input name="todo" className="todo" placeholder="Chore" onChange={placeholder} value={newChore.todo}/>
         <input name="due" className="due" placeholder="Due Data" onChange={placeholder} value={newChore.due}/>
       </div>
-      <button onClick={putData}>UPDATE CHORE</button>
       <button onClick={addData}>ADD NEW CHORE</button>
-      <button onClick={deleteData}>DELETE CHORE</button>
 
       <table>
         <thead>
           <tr>
             <th>Chore</th>
+            <th>Edit</th>
             <th>Due Date</th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
-        {choreList.map((item) => 
+        {choreList.map((item, index) => 
           <tr key={item.id}>
-            <td>{item.todo}</td>
-            <td>{item.due}</td>
+            {/* <td>{item.todo}</td> */}
+            <td contentEditable
+            onBlur={(event) => handleEdit(index, "todo", event.target.innerText)}>{item.todo}</td>
+            <td contentEditable
+            onBlur={(event) => handleEdit(index, "due", event.target.innerText)}>{item.due}</td>
+            {/* <td>
+              <input placeholder="Edit Chore" onChange={(event) => handleEdit(event)}/>
+            </td> */}
+            {/* <td>{item.due}</td> */}
+            {/* <td>
+              <input placeholder="Edit Due Date" onChange={(event) => handleEdit(event)}/>
+            </td> */}
             <td><button onClick={() => deleteData(item.id)}>X</button></td>
+            <td><button onClick={() => putData(item.id)}>Edit</button></td>
           </tr>
           )}
         </tbody>

@@ -29,6 +29,7 @@ app.get("/api/getList", (req, res) => {
 })
 
 app.put("/api/updateList/:id", async (req, res) => {
+    console.log("req is", req.body)
     try {
         const { id } = req.params;
         const { todo, due } = req.body;
